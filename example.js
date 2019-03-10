@@ -4,10 +4,9 @@ var ngrok = require('ngrok');
 var bodyParser = require('body-parser');
 var app = express();
 const serverPort = 8091; // default port
-const token = process.env.NGROK_AUTHTOKEN
 
-var deviceName = 'グーちゃん';
-var ip = '192.168.11.6'; // default IP
+var deviceName = 'Google Home';
+var ip = '192.168.1.20'; // default IP
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -22,7 +21,7 @@ app.post('/google-home-notifier', urlencodedParser, function (req, res) {
      ip = req.query.ip;
   }
 
-  var language = 'ja'; // default language code
+  var language = 'pl'; // default language code
   if (req.query.language) {
     language;
   }
@@ -64,7 +63,7 @@ app.get('/google-home-notifier', function (req, res) {
      ip = req.query.ip;
   }
 
-  var language = 'ja'; // default language code
+  var language = 'pl'; // default language code
   if (req.query.language) {
     language;
   }
@@ -97,8 +96,7 @@ app.get('/google-home-notifier', function (req, res) {
 })
 
 app.listen(serverPort, function () {
-  //ngrok.connect(serverPort, function (err, url) {
-  ngrok.connect({authtoken: token, addr: serverPort}, function (err, url) {
+  ngrok.connect(serverPort, function (err, url) {
     console.log('Endpoints:');
     console.log('    http://' + ip + ':' + serverPort + '/google-home-notifier');
     console.log('    ' + url + '/google-home-notifier');
